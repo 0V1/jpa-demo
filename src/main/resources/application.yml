@@ -7,9 +7,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     name: jpaDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.216.128:3302/demo?useSSL=false&useUnicode=true
+    url: jdbc:mysql://192.168.216.131:3306/druid-jpa?useSSL=false&useUnicode=true
     username: root
-    password: root
+    password: 123456
     druid:
       initial-size: 1                     # 接池初始大小
       max-active: 20                      #连接池中最大的活跃连接数
@@ -22,11 +22,16 @@ spring:
       test-on-borrow: false               #是否在获得连接后检测其可用性
       test-on-return: false               #是否在连接放回连接池后检测其可用性
       test-while-idle: true               #是否在连接空闲一段时间后检测其可用性
+      filters: stat,wall,log4j2
+      logSlowSql: true
   jpa:
     properties:
       #      hibernate.hbm2ddl.auto: update
       hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
 
 
 

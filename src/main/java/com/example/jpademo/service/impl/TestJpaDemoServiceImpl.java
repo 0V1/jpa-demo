@@ -24,30 +24,35 @@ public class TestJpaDemoServiceImpl implements TestJpaDemoService {
     private TestJpaDemoRepository repository;
 
 
-//    @Override
-//    public List<DemoJpaEntity> findAll() {
-//
-//        return repository.findAll();
-//    }
-
+    /**
+     * jpa 原生写法
+     * @return
+     */
     @Override
     public List<DemoJpaEntity> findAll() {
 
-        return repository.findAll(new Specification<DemoJpaEntity>() {
-            @Override
-            public Predicate toPredicate(Root<DemoJpaEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+        return repository.findAll();
+    }
 
-                Path<Object> path = root.get("buyer");
+    /**
+     * jpa 复杂的specification 写法
+     * @return
+     */
+    @Override
+    public List<DemoJpaEntity> specification() {
 
-                Predicate equal = criteriaBuilder.notEqual(path, "2");
+        return repository.findAll((root, query, criteriaBuilder) -> {
+
+            Path<Object> path = root.get("buyer");
+
+            Predicate equal = criteriaBuilder.notEqual(path, "2");
 //                query.select(root.get("id"));
 //                query.select(root.get("buyer"));
-                query.where(equal);
-                query.groupBy(root.get("buyer"));
-                query.orderBy(criteriaBuilder.desc(root.get("requestId")));
-                log.info("{}",query);
-                return query.getRestriction();
-            }
+            query.where(equal);
+//            query.groupBy(root.get("buyer"));
+            query.orderBy(criteriaBuilder.desc(root.get("requestId")));
+            log.info("{}",query);
+            return query.getRestriction();
         });
     }
 }

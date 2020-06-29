@@ -17,4 +17,5 @@ public interface TestJpaDemoService {
      */
     List<DemoJpaEntity> findAll();
 
+    List<DemoJpaEntity> specification();
 }
